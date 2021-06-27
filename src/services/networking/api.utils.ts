@@ -3,6 +3,11 @@ import {
   snakeKeysToCamel,
   camelKeysToSnake,
   CamelKeysToSnakeCase,
+  IGithubResponse,
+  IGithubUser,
+  IGithubApiResponse,
+  IFullUserResponse,
+  IUserBio,
 } from "@github/utils"
 
 export const delay = (ms: number): Promise<void> => {
@@ -25,3 +30,15 @@ export const camelToSnakeMapper = <D extends object>(data: D): CamelKeysToSnakeC
 export const defaultMapper = snakeKeysToCamel as <D, R>(data: D) => R
 
 export const defaultDataMapper = camelToSnakeMapper as <D, R>(data: D) => R
+
+export const githubResponseMapper = (res: IGithubResponse): IGithubUser[] => {
+  const users: IGithubUser[] = []
+  res.items.forEach((user: IGithubApiResponse) => {
+    users.push({ avatarUrl: user.avatar_url, username: user.login })
+  })
+  return users
+}
+
+export const userBioMapper = (res: IFullUserResponse): IUserBio => {
+  return { bio: res.bio }
+}
