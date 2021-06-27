@@ -143,7 +143,6 @@ export class Api {
     }
 
     const body = response.data
-
     try {
       const data = body ? mapper(body) : ({} as unknown as TResponse)
       return { ok: true, data }
